@@ -13,6 +13,8 @@ import java.nio.ByteOrder;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -45,6 +47,10 @@ import com.qualcomm.vuforia.samples.SampleApplication.utils.SampleUtils;
 import com.qualcomm.vuforia.samples.SampleApplication.utils.Teapot;
 import com.qualcomm.vuforia.samples.SampleApplication.utils.Texture;
 import com.qualcomm.vuforia.samples.SampleApplication.utils.SampleMath;
+
+import org.w3c.dom.Text;
+
+import VuforiaSamples.app.ImageTargets.Point;
 
 
 // The renderer class for the ImageTargets sample. 
@@ -276,6 +282,11 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer
                 ((ImageTargets)mActivity).loadNewTexture(Texture.move(p, x1, y1));
             } else if (action == MotionEvent.ACTION_UP) {
                 p.close();
+                List<Point> pointList = new ArrayList<>(Texture.getPointList());
+                if (!pointList.isEmpty()) {
+                    ((ImageTargets) mActivity).sendPoints(pointList, Texture.colour);
+                }
+                Texture.getPointList().clear();
             }
         }
         return onScreen;

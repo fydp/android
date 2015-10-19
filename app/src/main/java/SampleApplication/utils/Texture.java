@@ -7,23 +7,19 @@ and other countries. Trademarks of QUALCOMM Incorporated are used with permissio
 
 package com.qualcomm.vuforia.samples.SampleApplication.utils;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.List;
-
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.util.Log;
 
-import models.Point;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.util.ArrayList;
+import java.util.List;
+
+import VuforiaSamples.app.ImageTargets.Point;
 
 
 // Support class for the Vuforia samples applications.
@@ -46,6 +42,18 @@ public class Texture
     static int[] data = new int[width * height];
     static Bitmap bitmap;
     static Canvas canvas;
+
+    private static List<Point> pointList = new ArrayList<>();
+    public static int colour = Color.rgb(random(0, 250), random(0, 250), random(0, 250));
+
+    public static List<Point> getPointList() {
+        return pointList;
+    }
+
+    private static int random(int from, int to) {
+        return (int)(Math.random()*to) + from;
+    }
+
 
     /* Factory function to load a texture from the APK. */
     public static Texture loadTextureFromApk(String fileName,
@@ -72,14 +80,14 @@ public class Texture
     public static Texture move(Path p, int x, int y) {
         x *= xScale;
         y *= yScale;
-
         p.lineTo(x, y);
-        return getTexture(p);
+        pointList.add(new Point(null, null, x, y));
+        return getTexture(p, colour);
     }
 
-    public static Texture getTexture(Path p) {
+    public static Texture getTexture(Path p, int colour) {
         Paint paint = new Paint();
-        paint.setColor(Color.BLACK);
+        paint.setColor(colour);
         paint.setStrokeWidth(5);
         paint.setStrokeCap(Paint.Cap.ROUND);
         paint.setStyle(Paint.Style.STROKE);
@@ -88,7 +96,7 @@ public class Texture
         return loadTextureFromIntBuffer(data, width, height);
     }
 
-    public static Texture loadPath(List<Point> points) {
+    public static Texture loadPath(List<Point> points, String colour) {
         if (points.isEmpty()) {
             return null;
         }
@@ -100,7 +108,7 @@ public class Texture
             android.graphics.Point point = points.get(i).getPoint();
             p.lineTo(point.x, point.y);
         }
-        return getTexture(p);
+        return getTexture(p, Integer.parseInt(colour));
     }
 
     public static Texture fillPixel(int x, int y) {

@@ -54,9 +54,9 @@ import com.qualcomm.vuforia.samples.VuforiaSamples.ui.SampleAppMenu.SampleAppMen
 
 import VuforiaSamples.app.ImageTargets.GeneratePointsAsyncTask;
 import VuforiaSamples.app.ImageTargets.PictureView;
+import VuforiaSamples.app.ImageTargets.Point;
 import VuforiaSamples.app.ImageTargets.PointsCallback;
-import models.Point;
-
+import VuforiaSamples.app.ImageTargets.SocketClient;
 
 public class ImageTargets extends Activity implements SampleApplicationControl,
     SampleAppMenuInterface, PointsCallback
@@ -73,7 +73,9 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
     
     // Our OpenGL view:
     private SampleApplicationGLView mGlView;
-    
+
+    private SocketClient socketClient;
+
     // Our renderer:
     private ImageTargetRenderer mRenderer;
     
@@ -128,7 +130,14 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
         
         mIsDroidDevice = android.os.Build.MODEL.toLowerCase().startsWith(
             "droid");
-        
+
+        socketClient = SocketClient.getInstance(this);
+
+
+    }
+
+    public void sendPoints(List<Point> daPoints, int colour) {
+        socketClient.sendPoints(daPoints, colour);
     }
     
     // Process Single Tap event to trigger autofocus
@@ -197,9 +206,8 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
         mRenderer.flag = true;
     }
 
-    public void onPointsAvailable(List<Point> points) {
-        System.out.println("Kevin");
-        loadNewTexture(Texture.loadPath(points));
+    public void onPointsAvailable(List<Point> points, String colour) {
+        loadNewTexture(Texture.loadPath(points, colour));
     }
 
 
@@ -230,6 +238,9 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
         {
             mGlView.setVisibility(View.VISIBLE);
             mGlView.onResume();
+        }
+        if (socketClient != null) {
+            socketClient.connect();
         }
         
     }
@@ -279,6 +290,7 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
         {
             Log.e(LOGTAG, e.getString());
         }
+        socketClient.disconnect();
     }
     
     
@@ -602,9 +614,7 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
         // Process the Gestures
         if (mSampleAppMenu != null && mSampleAppMenu.processEvent(event))
             return true;
-        if (event.getAction() == MotionEvent.ACTION_UP) {
-            new GeneratePointsAsyncTask(this).execute();
-        }
+
         System.out.println(mRenderer.isTouchOnScreenInsideTarget(event.getX(), event.getY(), event.getAction()));
 
         return mGestureDetector.onTouchEvent(event);

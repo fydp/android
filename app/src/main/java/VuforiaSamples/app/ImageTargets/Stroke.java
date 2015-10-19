@@ -1,18 +1,21 @@
-package models;
+package VuforiaSamples.app.ImageTargets;
 
-public class Point {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Stroke {
     private final String id;
     private final String colour;
     private final String drawingId;
     private final String userId;
-    private final android.graphics.Point point;
+    private final List<Point> points;
 
-    public Point(String id, String colour, String drawingId, String userId, int x, int y) {
+    public Stroke(String id, String colour, String drawingId, String userId) {
         this.id = id;
         this.colour = colour;
         this.drawingId = drawingId;
         this.userId = userId;
-        this.point = new android.graphics.Point(x, y);
+        this.points = new ArrayList<>();
     }
 
     public String getId() {
@@ -31,7 +34,12 @@ public class Point {
         return userId;
     }
 
-    public android.graphics.Point getPoint() {
-        return point;
+    public void addPoint(Point p) {
+        points.add(p);
     }
+
+    public List<Point> getPoints() {
+        return points;
+    }
+
 }

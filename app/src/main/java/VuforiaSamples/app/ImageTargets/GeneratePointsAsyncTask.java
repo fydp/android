@@ -1,11 +1,10 @@
 package VuforiaSamples.app.ImageTargets;
 
+import android.graphics.Color;
 import android.os.AsyncTask;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import models.Point;
 
 public class GeneratePointsAsyncTask extends AsyncTask<Void, Void, List<Point>>{
 
@@ -19,7 +18,7 @@ public class GeneratePointsAsyncTask extends AsyncTask<Void, Void, List<Point>>{
 
         List<Point> points = new ArrayList<>();
         for (int i = 0; i < random(10, 25); i++) {
-            points.add(new Point(null, null, null, null, random(0, 247), random(0, 173)));
+            points.add(new Point(null, null, random(0, 247), random(0, 2*173)));
         }
         return points;
     }
@@ -30,6 +29,6 @@ public class GeneratePointsAsyncTask extends AsyncTask<Void, Void, List<Point>>{
 
     @Override
     protected void onPostExecute(List<Point> points) {
-        mCallback.onPointsAvailable(points);
+        mCallback.onPointsAvailable(points, Color.BLACK+"");
     }
 }

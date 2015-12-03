@@ -7,10 +7,6 @@ and other countries. Trademarks of QUALCOMM Incorporated are used with permissio
 
 package com.qualcomm.vuforia.samples.VuforiaSamples.app.ImageTargets;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -35,8 +31,8 @@ import android.widget.Toast;
 import com.qualcomm.vuforia.CameraDevice;
 import com.qualcomm.vuforia.DataSet;
 import com.qualcomm.vuforia.ObjectTracker;
-import com.qualcomm.vuforia.State;
 import com.qualcomm.vuforia.STORAGE_TYPE;
+import com.qualcomm.vuforia.State;
 import com.qualcomm.vuforia.Trackable;
 import com.qualcomm.vuforia.Tracker;
 import com.qualcomm.vuforia.TrackerManager;
@@ -52,11 +48,15 @@ import com.qualcomm.vuforia.samples.VuforiaSamples.ui.SampleAppMenu.SampleAppMen
 import com.qualcomm.vuforia.samples.VuforiaSamples.ui.SampleAppMenu.SampleAppMenuGroup;
 import com.qualcomm.vuforia.samples.VuforiaSamples.ui.SampleAppMenu.SampleAppMenuInterface;
 
-import VuforiaSamples.app.ImageTargets.GeneratePointsAsyncTask;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
+
 import VuforiaSamples.app.ImageTargets.PictureView;
 import VuforiaSamples.app.ImageTargets.Point;
 import VuforiaSamples.app.ImageTargets.PointsCallback;
 import VuforiaSamples.app.ImageTargets.SocketClient;
+import VuforiaSamples.app.ImageTargets.Stroke;
 
 public class ImageTargets extends Activity implements SampleApplicationControl,
     SampleAppMenuInterface, PointsCallback
@@ -208,6 +208,14 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
         loadNewTexture(Texture.loadPath(points, colour));
     }
 
+    public void onStrokesAvailable(List<Stroke> strokes) {
+        for (int i = 0; i < strokes.size(); i++) {
+            Stroke stroke = strokes.get(i);
+            List<Point> points = stroke.getPoints();
+            String colour = stroke.getColour();
+            loadNewTexture(Texture.loadPath(points, colour));
+        }
+    }
 
     // Called when the activity will start interacting with the user.
     @Override

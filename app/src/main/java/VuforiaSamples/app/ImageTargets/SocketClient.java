@@ -23,7 +23,7 @@ public class SocketClient {
     private static final String RECEIVE_ALL_DRAWINGS = "RECEIVE_ALL_DRAWINGS";
     private static final String RECEIVE_POINTS = "RECEIVE_POINTS";
     private static final String SEND_POINTS = "SEND_POINTS";
-    private static final String URL = "http://104.196.47.209:3000/";
+    private static final String URL = "http://104.196.40.180:3000/";
     private static SocketClient instance = null;
     private final Context activity;
     private Socket socket;
@@ -102,8 +102,8 @@ public class SocketClient {
                 JSONObject obj = (JSONObject) args[0];
                 // Only get first drawing
                 Log.d(TAG, obj.toString());
-                List<Stroke> strokes = JSONUtils.jsonToStrokes(obj);
-                ((PointsCallback)activity).onPointsAvailable(stroke.getPoints(), stroke.getColour());
+                List<Stroke> strokes = JSONUtils.jsonToStrokeList(obj);
+                ((PointsCallback)activity).onStrokesAvailable(strokes);
             }
         });
     }

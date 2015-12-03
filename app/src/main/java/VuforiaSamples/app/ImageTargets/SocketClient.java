@@ -19,6 +19,8 @@ import io.socket.emitter.Emitter;
 
 public class SocketClient {
     private static final String TAG = "SocketClient";
+    private static final String INIT = "INIT";
+    private static final String RECEIVE_ALL_DRAWINGS = "RECEIVE_ALL_DRAWINGS";
     private static final String RECEIVE_POINTS = "RECEIVE_POINTS";
     private static final String SEND_POINTS = "SEND_POINTS";
     private static final String URL = "http://104.196.47.209:3000/";
@@ -70,6 +72,7 @@ public class SocketClient {
     public void connect() {
         if (!socket.connected()) {
             socket.connect();
+            initialize();
         }
     }
 
@@ -90,6 +93,23 @@ public class SocketClient {
                 ((PointsCallback)activity).onPointsAvailable(stroke.getPoints(), stroke.getColour());
             }
         });
+
+        socket.on(RECEIVE_ALL_DRAWINGS, new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                Message message = mHandler.obtainMessage();
+                message.sendToTarget();
+                JSONObject obj = (JSONObject) args[0];
+                // Only get first drawing
+                Log.d(TAG, obj.toString());
+                List<Stroke> strokes = JSONUtils.jsonToStrokes(obj);
+                ((PointsCallback)activity).onPointsAvailable(stroke.getPoints(), stroke.getColour());
+            }
+        });
+    }
+
+    private void initialize() {
+        socket.emit(INIT); // Get drawing data
     }
 
     public void sendPoints(List<Point> points, int colour) {

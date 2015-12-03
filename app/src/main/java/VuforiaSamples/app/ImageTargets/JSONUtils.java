@@ -41,6 +41,20 @@ public class JSONUtils {
         return strokeObject;
     }
 
+    public static List<Stroke> jsonToStrokeList(JSONObject object) {
+        List<Stroke> strokes = new ArrayList<Stroke>();
+        try {
+            JSONArray jsonStrokes = object.getJSONArray("strokes");
+            for (int i = 0; i < jsonStrokes.length(); i++) {
+                JSONObject jsonStroke = jsonStrokes.getJSONObject(i);
+                strokes.add(jsonToStroke(jsonStroke));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return strokes;
+    }
+
     public static Stroke jsonToStroke(JSONObject object) {
         try {
           //  String id = object.getString("id");

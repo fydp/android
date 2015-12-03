@@ -21,7 +21,7 @@ public class SocketClient {
     private static final String TAG = "SocketClient";
     private static final String RECEIVE_POINTS = "RECEIVE_POINTS";
     private static final String SEND_POINTS = "SEND_POINTS";
-    private static final String URL = "http://104.154.61.129:3000/";
+    private static final String URL = "http://104.196.47.209:3000/";
     private static SocketClient instance = null;
     private final Context activity;
     private Socket socket;

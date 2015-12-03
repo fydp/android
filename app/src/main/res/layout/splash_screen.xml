@@ -48,7 +48,7 @@
 		        android:layout_alignParentRight="true"
 		        android:layout_below="@+id/logo_image_base"
 		        android:layout_marginRight="25dp"
-		        android:src="@drawable/icon_02"
+		        android:src="@drawable/logo"
 		        android:contentDescription="@string/splash_screen_description"
 		        />
 		    

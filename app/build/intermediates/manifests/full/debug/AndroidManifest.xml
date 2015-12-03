@@ -91,17 +91,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.ActivityLauncher"
-            android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:name="com.qualcomm.vuforia.samples.VuforiaSamples.ui.ActivityList.AboutScreen"
-            android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
-            android:noHistory="true"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
             android:name="com.qualcomm.vuforia.samples.VuforiaSamples.app.ImageTargets.ImageTargets"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
             android:launchMode="singleTask"

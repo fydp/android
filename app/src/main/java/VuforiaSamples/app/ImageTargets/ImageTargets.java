@@ -102,8 +102,6 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
     
     boolean mIsDroidDevice = false;
     private PictureView pv;
-    
-
 
     // Called when the activity first starts or the user navigates back to an
     // activity.

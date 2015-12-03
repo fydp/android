@@ -48,7 +48,8 @@ public final class R {
         public static final int icon_plus_pressed=0x7f02000d;
         public static final int logo=0x7f02000e;
         public static final int new_target_button_background=0x7f02000f;
-        public static final int vuforia_splash=0x7f020010;
+        public static final int splash=0x7f020010;
+        public static final int vuforia_splash=0x7f020011;
     }
     public static final class id {
         public static final int about_html_text=0x7f080002;

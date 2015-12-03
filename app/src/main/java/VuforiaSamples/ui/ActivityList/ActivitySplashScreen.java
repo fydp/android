@@ -23,8 +23,7 @@ import com.qualcomm.vuforia.samples.VuforiaSamples.R;
 public class ActivitySplashScreen extends Activity
 {
     
-    private static long SPLASH_MILLIS = 450;
-    
+    private static long SPLASH_MILLIS = 2000;
     
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -49,11 +48,12 @@ public class ActivitySplashScreen extends Activity
             @Override
             public void run()
             {
-                
-                Intent intent = new Intent(ActivitySplashScreen.this,
-                    ActivityLauncher.class);
+
+                Intent intent = new Intent();
+                intent.setClassName("com.qualcomm.vuforia.samples.VuforiaSamples",
+                        "com.qualcomm.vuforia.samples.VuforiaSamples.app.ImageTargets.ImageTargets");
                 startActivity(intent);
-                
+
             }
             
         }, SPLASH_MILLIS);

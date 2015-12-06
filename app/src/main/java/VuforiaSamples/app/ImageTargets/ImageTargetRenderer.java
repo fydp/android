@@ -251,6 +251,9 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer
 
         DisplayMetrics metrics = new DisplayMetrics();
         mActivity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        if (modelViewMatrix_Vuforia == null) {
+            return false;
+        }
         intersection = SampleMath.getPointToPlaneIntersection(
                 SampleMath.Matrix44FInverse(vuforiaAppSession.getProjectionMatrix()),
                 modelViewMatrix_Vuforia,

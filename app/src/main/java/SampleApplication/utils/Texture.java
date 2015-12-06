@@ -60,7 +60,7 @@ public class Texture
         AssetManager assets)
     {
         for(int i = 0; i < data.length; i++) {
-            data[i] = Color.argb(10, 255, 255, 255);
+            data[i] = Color.argb(0, 255, 255, 255);
         }
 
         Bitmap b = Bitmap.createBitmap(data, width, height, Bitmap.Config.ARGB_8888);

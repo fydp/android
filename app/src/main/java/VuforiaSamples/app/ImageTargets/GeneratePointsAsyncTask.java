@@ -29,6 +29,7 @@ public class GeneratePointsAsyncTask extends AsyncTask<Void, Void, List<Point>>{
 
     @Override
     protected void onPostExecute(List<Point> points) {
+        // TODO fix colour?
         mCallback.onPointsAvailable(points, Color.BLACK+"");
     }
 }

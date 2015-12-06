@@ -8,6 +8,7 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -99,17 +100,29 @@ public class SocketClient {
             public void call(Object... args) {
                 Message message = mHandler.obtainMessage();
                 message.sendToTarget();
-                JSONObject obj = (JSONObject) args[0];
+                JSONArray obj = (JSONArray) args[0];
                 // Only get first drawing
-                Log.d(TAG, obj.toString());
-                List<Stroke> strokes = JSONUtils.jsonToStrokeList(obj);
-                ((PointsCallback)activity).onStrokesAvailable(strokes);
+                Log.d(TAG, "Drawings list: " + obj.toString());
+                try {
+                    List<Stroke> strokes = JSONUtils.jsonToStrokeList(obj.getJSONObject(0));
+                    ((PointsCallback) activity).onStrokesAvailable(strokes);
+                } catch (JSONException e) {
+
+                }
             }
         });
     }
 
     private void initialize() {
-        socket.emit(INIT); // Get drawing data
+        try {
+            JSONObject object = new JSONObject();
+            object.put("userId", "n/a");
+            object.put("drawingId", "n/a");
+            socket.emit(INIT, object); // Get drawing data
+        } catch (JSONException e) {
+
+        }
+
     }
 
     public void sendPoints(List<Point> points, int colour) {

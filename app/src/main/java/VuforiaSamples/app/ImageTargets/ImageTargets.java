@@ -213,7 +213,7 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
             Stroke stroke = strokes.get(i);
             List<Point> points = stroke.getPoints();
             String colour = stroke.getColour();
-            loadNewTexture(Texture.loadPath(points, colour));
+            loadNewTexture(Texture.loadPath(points, Color.BLACK+""));
         }
     }
 

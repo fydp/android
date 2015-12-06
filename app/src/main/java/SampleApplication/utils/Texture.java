@@ -44,7 +44,7 @@ public class Texture
     static Canvas canvas;
 
     private static List<Point> pointList = new ArrayList<>();
-    public static int colour = Color.rgb(random(0, 250), random(0, 250), random(0, 250));
+    public static int colour = Color.RED;
 
     public static List<Point> getPointList() {
         return pointList;

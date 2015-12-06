@@ -9,6 +9,9 @@ package com.qualcomm.vuforia.samples.VuforiaSamples.app.ImageTargets;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
@@ -24,6 +27,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -52,6 +56,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import VuforiaSamples.app.ImageTargets.ColourPickerFragment;
 import VuforiaSamples.app.ImageTargets.PictureView;
 import VuforiaSamples.app.ImageTargets.Point;
 import VuforiaSamples.app.ImageTargets.PointsCallback;
@@ -61,6 +66,10 @@ import VuforiaSamples.app.ImageTargets.Stroke;
 public class ImageTargets extends Activity implements SampleApplicationControl,
     SampleAppMenuInterface, PointsCallback
 {
+    private static final String COLOUR_PICKER_TAG = "colour_picker";
+    public static final String COLOUR_ARG = "colour";
+    ImageView mSquare;
+    int mSelectedColour = Color.RED;
     private static final String LOGTAG = "ImageTargets";
 
     SampleApplicationSession vuforiaAppSession;
@@ -115,7 +124,7 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
         
         startLoadingAnimation();
         mDatasetStrings.add("StonesAndChips.xml");
-        mDatasetStrings.add("Tarmac.xml");
+        mDatasetStrings.add("Tarmac.xml");====
         
         vuforiaAppSession
             .initAR(this, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -131,6 +140,64 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
 
         socketClient = SocketClient.getInstance(this);
 
+
+        mSquare = (ImageView)findViewById(R.id.colour_picker_square);
+        View mSquareTouch = findViewById(R.id.colour_picker_square_touch);
+        if (savedInstanceState != null) {
+            onColourChanged(savedInstanceState.getInt(COLOUR_ARG));
+        }
+
+        mSquareTouch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction ft = fragmentManager.beginTransaction();
+                Fragment current = fragmentManager.findFragmentByTag(COLOUR_PICKER_TAG);
+
+                if (current == null) {
+                    Bundle args = new Bundle();
+                    args.putInt(COLOUR_ARG, mSelectedColour);
+                    current = new ColourPickerFragment();
+                    current.setArguments(args);
+                    ft.add(R.id.fragment_container, current, COLOUR_PICKER_TAG);
+                } else {
+                    ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
+                    ft.remove(current);
+                }
+                ft.commit();
+            }
+        });
+
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(COLOUR_ARG, mSelectedColour);
+    }
+
+    public void onColourChanged(int colour) {
+        mSelectedColour = colour;
+        Texture.colour = mSelectedColour;
+        if (mSquare != null) {
+            mSquare.setColorFilter(mSelectedColour);
+        }
+    }
+
+    public void onColourSelectionTimeout() {
+        try {
+            FragmentManager fragmentManager = getFragmentManager();
+            Fragment current = fragmentManager.findFragmentByTag(COLOUR_PICKER_TAG);
+            if (current != null) {
+                FragmentTransaction ft = fragmentManager.beginTransaction();
+                ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
+                ft.remove(current);
+                ft.commit();
+            }
+        } catch (IllegalStateException ignored) {
+            // no way to avoid if savedinstance state already called
+        }
 
     }
 

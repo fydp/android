@@ -251,6 +251,9 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer
 
         DisplayMetrics metrics = new DisplayMetrics();
         mActivity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        if (modelViewMatrix_Vuforia == null) {
+            return false;
+        }
         intersection = SampleMath.getPointToPlaneIntersection(
                 SampleMath.Matrix44FInverse(vuforiaAppSession.getProjectionMatrix()),
                 modelViewMatrix_Vuforia,
@@ -301,7 +304,8 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer
         State state = mRenderer.begin();
         mRenderer.drawVideoBackground();
 
-        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+        GLES20.glEnable(GLES20.GL_BLEND);
+        GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
         
         // handle face culling, we need to detect if we are using reflection
         // to determine the direction of the culling
@@ -422,7 +426,7 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer
             
         }
         
-        GLES20.glDisable(GLES20.GL_DEPTH_TEST);
+        GLES20.glDisable(GLES20.GL_BLEND);
         
         mRenderer.end();
     }

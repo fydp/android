@@ -1,0 +1,6 @@
+- colour picker
+- transparency
+- erase
+- persist
+- undo/redo
+- 

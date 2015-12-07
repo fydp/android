@@ -21,6 +21,7 @@ import io.socket.emitter.Emitter;
 public class SocketClient {
     private static final String TAG = "SocketClient";
     private static final String INIT = "INIT";
+    private static final String CLEAR_DRAWING = "CLEAR_DRAWING";
     private static final String RECEIVE_ALL_DRAWINGS = "RECEIVE_ALL_DRAWINGS";
     private static final String RECEIVE_POINTS = "RECEIVE_POINTS";
     private static final String SEND_POINTS = "SEND_POINTS";
@@ -133,6 +134,16 @@ public class SocketClient {
             socket.emit(SEND_POINTS, obj); // Send points through socket
         } catch (JSONException e) {
             Log.d(TAG, "Could not serialize points");
+        }
+    }
+
+    public void clearDrawing(String drawingId) {
+        try {
+            JSONObject object = new JSONObject();
+            object.put("drawingId", drawingId);
+            socket.emit(CLEAR_DRAWING, object);
+        } catch (JSONException e) {
+            Log.d(TAG, "Could not clear drawing. :(");
         }
     }
 }

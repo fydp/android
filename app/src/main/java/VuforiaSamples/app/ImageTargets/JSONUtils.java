@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 public class JSONUtils {
 
+    public static final String FIXED_DRAWING_ID = "f2bdd0a5-d41e-4a35-a46a-265254b113b5";
     private static final String TAG = "JSONUtils";
 
     public static JSONObject pointListToJson(List<Point> points, int colour, Context activity) throws JSONException {
@@ -35,7 +36,7 @@ public class JSONUtils {
         }
         JSONObject strokeObject = new JSONObject();
         strokeObject.put("colour", colour+"");
-        strokeObject.put("drawingId", "f2bdd0a5-d41e-4a35-a46a-265254b113b5");
+        strokeObject.put("drawingId", FIXED_DRAWING_ID);
         strokeObject.put("userId", userId);
         strokeObject.put("points", array);
         Log.d(TAG, strokeObject.toString());

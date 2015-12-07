@@ -138,17 +138,24 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
         loadTextures();
         
         mIsDroidDevice = android.os.Build.MODEL.toLowerCase().startsWith(
-            "droid");
+                "droid");
 
         socketClient = SocketClient.getInstance(this);
 
+        View mClearTouch = findViewById(R.id.clear_touch);
+        mClearTouch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         mSquare = (ImageView)findViewById(R.id.colour_picker_square);
-        View mSquareTouch = findViewById(R.id.colour_picker_square_touch);
         if (savedInstanceState != null) {
             onColourChanged(savedInstanceState.getInt(COLOUR_ARG));
         }
 
+        View mSquareTouch = findViewById(R.id.colour_picker_square_touch);
         mSquareTouch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -263,6 +270,10 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
 
     public void onPointsAvailable(List<Point> points, String colour) {
         loadNewTexture(Texture.loadPath(points, colour));
+    }
+
+    public void onClear() {
+        loadNewTexture(Texture.clear());
     }
 
     public void onStrokesAvailable(List<Stroke> strokes) {
@@ -652,7 +663,7 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
         boolean result = true;
         
         Tracker objectTracker = TrackerManager.getInstance().getTracker(
-            ObjectTracker.getClassType());
+                ObjectTracker.getClassType());
         if (objectTracker != null)
             objectTracker.stop();
         

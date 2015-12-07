@@ -56,8 +56,7 @@ public class Texture
 
 
     /* Factory function to load a texture from the APK. */
-    public static Texture loadTextureFromApk(String fileName,
-        AssetManager assets)
+    public static Texture loadTextureFromApk(String fileName, AssetManager assets)
     {
         for(int i = 0; i < data.length; i++) {
             data[i] = Color.argb(0, 255, 255, 255);
@@ -92,6 +91,12 @@ public class Texture
         paint.setStrokeCap(Paint.Cap.ROUND);
         paint.setStyle(Paint.Style.STROKE);
         canvas.drawPath(p, paint);
+        bitmap.getPixels(data, 0, width, 0, 0, width, height);
+        return loadTextureFromIntBuffer(data, width, height);
+    }
+
+    public static Texture clear() {
+        canvas.drawColor(Color.argb(0, 255, 255, 255));
         bitmap.getPixels(data, 0, width, 0, 0, width, height);
         return loadTextureFromIntBuffer(data, width, height);
     }

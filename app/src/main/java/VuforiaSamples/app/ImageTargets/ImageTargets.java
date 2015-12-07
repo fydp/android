@@ -57,6 +57,7 @@ import java.util.List;
 import java.util.Vector;
 
 import VuforiaSamples.app.ImageTargets.ColourPickerFragment;
+import VuforiaSamples.app.ImageTargets.JSONUtils;
 import VuforiaSamples.app.ImageTargets.PictureView;
 import VuforiaSamples.app.ImageTargets.Point;
 import VuforiaSamples.app.ImageTargets.PointsCallback;
@@ -146,7 +147,8 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
         mClearTouch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                onClear();
+                socketClient.clearDrawing(JSONUtils.FIXED_DRAWING_ID);
             }
         });
 

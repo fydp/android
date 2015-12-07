@@ -13,6 +13,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -96,7 +97,7 @@ public class Texture
     }
 
     public static Texture clear() {
-        canvas.drawColor(Color.argb(0, 255, 255, 255));
+        canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
         bitmap.getPixels(data, 0, width, 0, 0, width, height);
         return loadTextureFromIntBuffer(data, width, height);
     }

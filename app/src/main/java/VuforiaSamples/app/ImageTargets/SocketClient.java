@@ -114,6 +114,16 @@ public class SocketClient {
                 }
             }
         });
+
+        socket.on(CLEAR_DRAWING, new Emitter.Listener(){
+
+            @Override
+            public void call(Object... args) {
+                Message message = mHandler.obtainMessage();
+                message.sendToTarget();
+                ((PointsCallback) activity).onClear();
+            }
+        });
     }
 
     private void initialize() {

@@ -248,24 +248,12 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
     
     public void loadTextures()
     {
-       // mTextures.add(Texture.loadTextureFromApk("TextureTeapotBrass.png",
-         //   getAssets()));
         if (!mTextures.isEmpty()) {
             mTextures.clear();
         }
         mTextures.add(Texture.loadTextureFromApk(null, null));
-
-        //  mTextures.add(Texture.loadTextureFromApk("TextureTeapotRed.png",
-      //      getAssets()));
-     //   mTextures.add(Texture.loadTextureFromApk("ImageTargets/Buildings.jpeg",
-        //    getAssets()));
     }
 
-    public void fillPixel(int x, int y) {
-        mTextures.add(Texture.fillPixel(x,y));
-        mTextures.remove(0);
-        mRenderer.flag = true;
-    }
 
     public void loadNewTexture(Texture t) {
         mTextures.add(t);
@@ -278,12 +266,17 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
     }
 
     public void onStrokesAvailable(List<Stroke> strokes) {
-        for (int i = 0; i < strokes.size(); i++) {
-            Stroke stroke = strokes.get(i);
+        Texture t = null;
+        for(Stroke stroke : strokes) {
             List<Point> points = stroke.getPoints();
             String colour = stroke.getColour();
-            loadNewTexture(Texture.loadPath(points, Color.BLACK+""));
+            t = Texture.loadPath(points, colour);
         }
+
+        if(t != null) {
+            loadNewTexture(t);
+        }
+
     }
 
     // Called when the activity will start interacting with the user.
@@ -406,6 +399,7 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
         mRenderer = new ImageTargetRenderer(this, vuforiaAppSession);
         mRenderer.setTextures(mTextures);
         mGlView.setRenderer(mRenderer);
+        socketClient.init();
         
     }
     
@@ -461,11 +455,6 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
         for (int count = 0; count < numTrackables; count++)
         {
             Trackable trackable = mCurrentDataset.getTrackable(count);
-            if(isExtendedTrackingActive())
-            {
-                trackable.startExtendedTracking();
-            }
-            
             String name = "Current Dataset : " + trackable.getName();
             trackable.setUserData(name);
             Log.d(LOGTAG, "UserData:Set the following user data "
@@ -696,12 +685,6 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
     }
 
 
-    
-    boolean isExtendedTrackingActive()
-    {
-        return mExtendedTracking;
-    }
-    
     final public static int CMD_BACK = -1;
     final public static int CMD_EXTENDED_TRACKING = 1;
     final public static int CMD_AUTOFOCUS = 2;

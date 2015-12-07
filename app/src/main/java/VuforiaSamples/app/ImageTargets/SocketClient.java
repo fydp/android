@@ -58,8 +58,6 @@ public class SocketClient {
 
         });
 
-        initializeSocketEvents();
-
         socket.connect();
     }
 
@@ -79,6 +77,10 @@ public class SocketClient {
 
     public void disconnect() {
         socket.disconnect();
+    }
+
+    public void init() {
+        initializeSocketEvents();
     }
 
     private void initializeSocketEvents() {

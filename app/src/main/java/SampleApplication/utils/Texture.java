@@ -110,46 +110,8 @@ public class Texture
         }
         return getTexture(p, Integer.parseInt(colour));
     }
-
-    public static Texture fillPixel(int x, int y) {
-        x *= xScale;
-        y *= yScale;
-
-        for (int i = -5; i < 5; i++) {
-            for (int j = -5; j < 5; j++) {
-                int index = ((int)(5* xScale)  + i) + (width *((int)(5* yScale) +j));
-                if (index < data.length && index >= 0)
-                    data[index] = Color.BLUE;
-            }
-        }
-        for (int i = -5; i < 5; i++) {
-            for (int j = -5; j < 5; j++) {
-                int index = ((int)(242*xScale)  + i) + ( width *((int)(168*yScale) +j));
-                if (index < data.length && index >= 0)
-                    data[index] = Color.GREEN;
-            }
-        }
-
-
-        for (int i = -5; i < 5; i++) {
-            for (int j = -5; j < 5; j++) {
-                int index = (x  + i) + ( width *(y +j));
-                if (index < data.length && index >= 0)
-                    data[index] = Color.RED;
-            }
-        }
-
-        return loadTextureFromIntBuffer(data, width, height);
-    }
-
-    public static int randomValue() {
-        return (int)(Math.random()*255) + 1;
-    }
     
-    
-    public static Texture loadTextureFromIntBuffer(int[] data, int width,
-        int height)
-    {
+    public static Texture loadTextureFromIntBuffer(int[] data, int width, int height) {
         // Convert:
         int numPixels = width * height;
         byte[] dataBytes = new byte[numPixels * 4];

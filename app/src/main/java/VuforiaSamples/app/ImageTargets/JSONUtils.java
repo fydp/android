@@ -34,8 +34,8 @@ public class JSONUtils {
             array.put(jsonPoint);
         }
         JSONObject strokeObject = new JSONObject();
-        strokeObject.put("colour", colour);
-        strokeObject.put("drawingId", "27dfb49c-3d02-41b2-9850-273b6deb6dd1");
+        strokeObject.put("colour", colour+"");
+        strokeObject.put("drawingId", "f2bdd0a5-d41e-4a35-a46a-265254b113b5");
         strokeObject.put("userId", userId);
         strokeObject.put("points", array);
         Log.d(TAG, strokeObject.toString());
@@ -43,7 +43,7 @@ public class JSONUtils {
     }
 
     public static List<Stroke> jsonToStrokeList(JSONObject object) {
-        List<Stroke> strokes = new ArrayList<Stroke>();
+        List<Stroke> strokes = new ArrayList<>();
         try {
             JSONArray jsonStrokes = object.getJSONArray("strokes");
             for (int i = 0; i < jsonStrokes.length(); i++) {

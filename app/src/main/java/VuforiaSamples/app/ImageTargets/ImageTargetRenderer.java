@@ -91,9 +91,7 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer
     private int mvpMatrixHandle;
     
     private int texSampler2DHandle;
-    
-    private Teapot mTeapot;
-    
+
     private float kBuildingScale = 12.0f;
     private SampleApplication3DModel mBuildingsModel;
     
@@ -104,41 +102,17 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer
     private static final float OBJECT_SCALE_FLOAT = 3.0f;
     public boolean flag = true;
     
-    public ImageTargetRenderer(ImageTargets activity,
-        SampleApplicationSession session)
-    {
+    public ImageTargetRenderer(ImageTargets activity, SampleApplicationSession session) {
         mActivity = activity;
         vuforiaAppSession = session;
     }
 
-    int count = 0;
-    
     // Called to draw the current frame.
     @Override
     public void onDrawFrame(GL10 gl)
     {
         if (!mIsActive)
             return;
-        count++;
-        // Call our function to render content
-//        System.out.println("Count " + count);
-//
-//        if (count % 100 == 0) {
-//            ((ImageTargets) mActivity).loadTextures();
-//            for (Texture t : mTextures)
-//            {
-//                GLES20.glGenTextures(1, t.mTextureID, 0);
-//                GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, t.mTextureID[0]);
-//                GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,
-//                        GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
-//                GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,
-//                        GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
-//                GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA,
-//                        t.mWidth, t.mHeight, 0, GLES20.GL_RGBA,
-//                        GLES20.GL_UNSIGNED_BYTE, t.mData);
-//            }
-//
-//        }
 
         if(flag) {
             for (Texture t : mTextures)
@@ -185,10 +159,8 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer
     
     
     // Function for initializing the renderer.
-    private void initRendering()
-    {
-        mTeapot = new Teapot();
-        
+    private void initRendering() {
+
         mRenderer = Renderer.getInstance();
         
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, Vuforia.requiresAlpha() ? 0.0f
@@ -265,7 +237,7 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer
 
         // The target returns as pose the center of the trackable. The following
         // if-statement simply checks that the tap is within this range
-        System.out.println("x: " + intersection.getData()[0] + " y: "+intersection.getData()[1]);
+       // System.out.println("x: " + intersection.getData()[0] + " y: "+intersection.getData()[1]);
 
 
         // x values range from -123.5 to 123.5
@@ -334,17 +306,9 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer
             // deal with the modelview and projection matrices
             float[] modelViewProjection = new float[16];
 
-            if (!mActivity.isExtendedTrackingActive())
-            {
-                Matrix.translateM(modelViewMatrix, 0, 0.0f, 0.0f, 0.f);
-                Matrix.scaleM(modelViewMatrix, 0, targetSize.getData()[0],
-                    targetSize.getData()[1], 1.0f);
-            } else
-            {
-                Matrix.rotateM(modelViewMatrix, 0, 90.0f, 1.0f, 0, 0);
-                Matrix.scaleM(modelViewMatrix, 0, kBuildingScale,
-                    kBuildingScale, kBuildingScale);
-            }
+            Matrix.translateM(modelViewMatrix, 0, 0.0f, 0.0f, 0.f);
+            Matrix.scaleM(modelViewMatrix, 0, targetSize.getData()[0],
+                targetSize.getData()[1], 1.0f);
 
             Matrix.multiplyMM(modelViewProjection, 0, vuforiaAppSession
                 .getProjectionMatrix().getData(), 0, modelViewMatrix, 0);
@@ -352,76 +316,49 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer
             // activate the shader program and bind the vertex/normal/tex coords
             GLES20.glUseProgram(shaderProgramID);
             
-            if (!mActivity.isExtendedTrackingActive())
-            {
-                FloatBuffer b = ByteBuffer.allocateDirect(planeVertices.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
-                b = b.put(planeVertices);
-                b.position(0);
-                FloatBuffer c = ByteBuffer.allocateDirect(planeNormals.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
-                c = c.put(planeNormals);
-                c.position(0);
-                FloatBuffer d = ByteBuffer.allocateDirect(planeTexcoords.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
-                d = d.put(planeTexcoords);
-                d.position(0);
-                ShortBuffer e = ByteBuffer.allocateDirect(planeIndices.length * 2).order(ByteOrder.nativeOrder()).asShortBuffer();
-                e = e.put(planeIndices);
-                e.position(0);
-                GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT,
-                        false, 0,b);
+            FloatBuffer b = ByteBuffer.allocateDirect(planeVertices.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
+            b = b.put(planeVertices);
+            b.position(0);
+            FloatBuffer c = ByteBuffer.allocateDirect(planeNormals.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
+            c = c.put(planeNormals);
+            c.position(0);
+            FloatBuffer d = ByteBuffer.allocateDirect(planeTexcoords.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
+            d = d.put(planeTexcoords);
+            d.position(0);
+            ShortBuffer e = ByteBuffer.allocateDirect(planeIndices.length * 2).order(ByteOrder.nativeOrder()).asShortBuffer();
+            e = e.put(planeIndices);
+            e.position(0);
+            GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT,
+                    false, 0,b);
 
-                GLES20.glVertexAttribPointer(normalHandle, 3, GLES20.GL_FLOAT,
-                        false, 0, c);
+            GLES20.glVertexAttribPointer(normalHandle, 3, GLES20.GL_FLOAT,
+                    false, 0, c);
 
-                GLES20.glVertexAttribPointer(textureCoordHandle, 2,
-                        GLES20.GL_FLOAT, false, 0, d);
+            GLES20.glVertexAttribPointer(textureCoordHandle, 2,
+                    GLES20.GL_FLOAT, false, 0, d);
 
-                GLES20.glEnableVertexAttribArray(vertexHandle);
-                GLES20.glEnableVertexAttribArray(normalHandle);
-                GLES20.glEnableVertexAttribArray(textureCoordHandle);
+            GLES20.glEnableVertexAttribArray(vertexHandle);
+            GLES20.glEnableVertexAttribArray(normalHandle);
+            GLES20.glEnableVertexAttribArray(textureCoordHandle);
 
-                // activate texture 0, bind it, and pass to shader
-                GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-                GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,
-                        mTextures.get(textureIndex).mTextureID[0]);
-                GLES20.glUniform1i(texSampler2DHandle, 0);
+            // activate texture 0, bind it, and pass to shader
+            GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,
+                    mTextures.get(textureIndex).mTextureID[0]);
+            GLES20.glUniform1i(texSampler2DHandle, 0);
 
-                // pass the model view matrix to the shader
-                GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false,
-                        modelViewProjection, 0);
-
-                // finally draw the teapot
-                GLES20.glDrawElements(GLES20.GL_TRIANGLES, 6, GLES20.GL_UNSIGNED_SHORT, e);
-
-                // disable the enabled arrays
-                GLES20.glDisableVertexAttribArray(vertexHandle);
-                GLES20.glDisableVertexAttribArray(normalHandle);
-                GLES20.glDisableVertexAttribArray(textureCoordHandle);
-            } else
-            {
-                GLES20.glDisable(GLES20.GL_CULL_FACE);
-                GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT,
-                    false, 0, mBuildingsModel.getVertices());
-                GLES20.glVertexAttribPointer(normalHandle, 3, GLES20.GL_FLOAT,
-                    false, 0, mBuildingsModel.getNormals());
-                GLES20.glVertexAttribPointer(textureCoordHandle, 2,
-                    GLES20.GL_FLOAT, false, 0, mBuildingsModel.getTexCoords());
-                
-                GLES20.glEnableVertexAttribArray(vertexHandle);
-                GLES20.glEnableVertexAttribArray(normalHandle);
-                GLES20.glEnableVertexAttribArray(textureCoordHandle);
-                
-                GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-                GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,
-                    mTextures.get(3).mTextureID[0]);
-                GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false,
+            // pass the model view matrix to the shader
+            GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false,
                     modelViewProjection, 0);
-                GLES20.glUniform1i(texSampler2DHandle, 0);
-                GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0,
-                    mBuildingsModel.getNumObjectVertex());
-                
-                SampleUtils.checkGLError("Renderer DrawBuildings");
-            }
-            
+
+            // finally draw the teapot
+            GLES20.glDrawElements(GLES20.GL_TRIANGLES, 6, GLES20.GL_UNSIGNED_SHORT, e);
+
+            // disable the enabled arrays
+            GLES20.glDisableVertexAttribArray(vertexHandle);
+            GLES20.glDisableVertexAttribArray(normalHandle);
+            GLES20.glDisableVertexAttribArray(textureCoordHandle);
+
             SampleUtils.checkGLError("Render Frame");
             
         }

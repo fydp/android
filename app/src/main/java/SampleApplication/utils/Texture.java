@@ -45,7 +45,7 @@ public class Texture
     static Canvas canvas;
 
     private static List<Point> pointList = new ArrayList<>();
-    public static int colour = Color.BLACK;
+    public static int colour = Color.RED;
 
     public static List<Point> getPointList() {
         return pointList;
@@ -55,6 +55,14 @@ public class Texture
         return (int)(Math.random()*to) + from;
     }
 
+
+    private static void drawBorder(Canvas c) {
+        Paint paint = new Paint();
+        paint.setColor(Color.rgb(255,255,255));
+        paint.setStrokeWidth(5);
+        paint.setStyle(Paint.Style.STROKE);
+        c.drawRect(0, 0, width, height, paint);
+    }
 
     /* Factory function to load a texture from the APK. */
     public static Texture loadTextureFromApk(String fileName, AssetManager assets)
@@ -66,6 +74,7 @@ public class Texture
         Bitmap b = Bitmap.createBitmap(data, width, height, Bitmap.Config.ARGB_8888);
         bitmap = b.copy(Bitmap.Config.ARGB_8888, true);
         canvas = new Canvas(bitmap);
+        drawBorder(canvas);
         return loadTextureFromIntBuffer(data, width, height);
     }
 
@@ -98,6 +107,7 @@ public class Texture
 
     public static Texture clear() {
         canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+        drawBorder(canvas);
         bitmap.getPixels(data, 0, width, 0, 0, width, height);
         return loadTextureFromIntBuffer(data, width, height);
     }

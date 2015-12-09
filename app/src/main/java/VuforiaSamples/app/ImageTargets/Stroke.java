@@ -1,6 +1,7 @@
 package VuforiaSamples.app.ImageTargets;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Stroke {
@@ -37,6 +38,8 @@ public class Stroke {
     public void addPoint(Point p) {
         points.add(p);
     }
+
+    public void sort() { Collections.sort(points); }
 
     public List<Point> getPoints() {
         return points;

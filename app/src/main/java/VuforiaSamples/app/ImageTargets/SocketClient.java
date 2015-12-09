@@ -25,7 +25,7 @@ public class SocketClient {
     private static final String RECEIVE_ALL_DRAWINGS = "RECEIVE_ALL_DRAWINGS";
     private static final String RECEIVE_POINTS = "RECEIVE_POINTS";
     private static final String SEND_POINTS = "SEND_POINTS";
-    private static final String URL = "http://104.196.40.180:3000/";
+    private static final String URL = "http://104.196.97.228:3000/";
     private static SocketClient instance = null;
     private final Context activity;
     private Socket socket;
@@ -42,7 +42,7 @@ public class SocketClient {
         mHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message message) {
-                Toast.makeText(activity, "receive!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, "receive!", Toast.LENGTH_SHORT).show();
 
             }
         };
@@ -55,11 +55,12 @@ public class SocketClient {
         }).on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
 
             @Override
-            public void call(Object... args) {}
+            public void call(Object... args) {
+            }
 
         });
-
         socket.connect();
+
     }
 
     public static SocketClient getInstance(Context activity) {
@@ -82,6 +83,7 @@ public class SocketClient {
 
     public void init() {
         initializeSocketEvents();
+        initialize();
     }
 
     private void initializeSocketEvents() {

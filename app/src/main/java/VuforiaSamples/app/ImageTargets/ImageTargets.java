@@ -125,6 +125,7 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
         
         startLoadingAnimation();
         //mDatasetStrings.add("StonesAndChips.xml");
+        mDatasetStrings.add("Tests1.xml");
         mDatasetStrings.add("DrawAR.xml");
         mDatasetStrings.add("Tarmac.xml");
 

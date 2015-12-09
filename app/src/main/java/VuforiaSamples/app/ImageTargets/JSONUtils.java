@@ -27,10 +27,12 @@ public class JSONUtils {
         }
 
         JSONArray array = new JSONArray();
-        for (Point p : points) {
+        for (int i = 0; i < points.size(); i++) {
+            Point p = points.get(i);
             JSONObject jsonPoint = new JSONObject();
             jsonPoint.put("x", p.getX());
             jsonPoint.put("y", p.getY());
+            jsonPoint.put("index", i);
             array.put(jsonPoint);
         }
         JSONObject strokeObject = new JSONObject();
@@ -72,9 +74,12 @@ public class JSONUtils {
                 //String strokeId = jsonPoint.getString("strokeId");
                 int x = jsonPoint.getInt("x");
                 int y = jsonPoint.getInt("y");
+                int index = jsonPoint.getInt("index");
                 Point p = new Point(null, null, x, y);
+                p.setIndex(index);
                 stroke.addPoint(p);
             }
+            stroke.sort();
             return stroke;
         } catch (JSONException e) {
             e.printStackTrace();

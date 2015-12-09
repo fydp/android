@@ -1,9 +1,10 @@
 package VuforiaSamples.app.ImageTargets;
 
-public class Point {
+public class Point implements Comparable<Point>{
     private final String id;
     private final android.graphics.Point point;
     private final String strokeId;
+    private int index;
 
     public Point(String id, String strokeId, int x, int y) {
         this.id = id;
@@ -30,4 +31,13 @@ public class Point {
     public int getY() {
         return point.y;
     }
+
+    public void setIndex(int i) {index = i;}
+
+
+    @Override
+    public int compareTo(Point another) {
+        return this.index - another.index;
+    }
 }
+

@@ -130,7 +130,7 @@ public class SocketClient {
         try {
             JSONObject object = new JSONObject();
             object.put("userId", "n/a");
-            object.put("drawingId", "n/a");
+            object.put("drawingId", JSONUtils.FIXED_DRAWING_ID);
             socket.emit(INIT, object); // Get drawing data
         } catch (JSONException e) {
 

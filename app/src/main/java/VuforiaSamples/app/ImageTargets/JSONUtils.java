@@ -12,8 +12,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class JSONUtils {
-
-    public static final String FIXED_DRAWING_ID = "f2bdd0a5-d41e-4a35-a46a-265254b113b5";
+    public static final String FIXED_DRAWING_ID = "a0c81763-a8b5-4c0e-a065-0b3f95ef9daa";
     private static final String TAG = "JSONUtils";
 
     public static JSONObject pointListToJson(List<Point> points, int colour, Context activity) throws JSONException {
